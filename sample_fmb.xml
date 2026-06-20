@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmb>
+    <endpoints>
+        <!-- LOVs Endpoints -->
+        <endpoint>
+            <name>GET_DEPARTMENT_LOV</name>
+            <path>/api/lov/departments</path>
+            <method>GET</method>
+            <category>LOVs</category>
+            <description>Retrieve list of departments</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+        
+        <endpoint>
+            <name>GET_STATUS_LOV</name>
+            <path>/api/lov/status</path>
+            <method>GET</method>
+            <category>LOVs</category>
+            <description>Retrieve list of status values</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <!-- POST-CHANGE Endpoints -->
+        <endpoint>
+            <name>POST_CHANGE_VALIDATION</name>
+            <path>/api/post-change/validate</path>
+            <method>POST</method>
+            <category>POST-CHANGE</category>
+            <description>Post-change validation</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <!-- Validations Endpoints -->
+        <endpoint>
+            <name>VALIDATE_EMPLOYEE_ID</name>
+            <path>/api/validate/employee</path>
+            <method>POST</method>
+            <category>Validations</category>
+            <description>Validate employee ID format</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <!-- CRUD Direct Endpoints -->
+        <endpoint>
+            <name>CREATE_EMPLOYEE</name>
+            <path>/api/employees</path>
+            <method>POST</method>
+            <category>CRUD (Direct)</category>
+            <description>Create new employee record</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <endpoint>
+            <name>READ_EMPLOYEE</name>
+            <path>/api/employees/{id}</path>
+            <method>GET</method>
+            <category>CRUD (Direct)</category>
+            <description>Read employee record</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <endpoint>
+            <name>UPDATE_EMPLOYEE</name>
+            <path>/api/employees/{id}</path>
+            <method>PUT</method>
+            <category>CRUD (Direct)</category>
+            <description>Update employee record</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <!-- CRUD Indirect Endpoints -->
+        <endpoint>
+            <name>DELETE_EMPLOYEE_INDIRECT</name>
+            <path>/api/employees/{id}/indirect</path>
+            <method>DELETE</method>
+            <category>CRUD (Indirect)</category>
+            <description>Delete employee with validation</description>
+            <blockType>INDIRECT</blockType>
+        </endpoint>
+
+        <!-- Actions Endpoints -->
+        <endpoint>
+            <name>APPROVE_REQUISITION</name>
+            <path>/api/actions/approve</path>
+            <method>POST</method>
+            <category>Actions</category>
+            <description>Approve a requisition</description>
+            <blockType>DIRECT</blockType>
+        </endpoint>
+
+        <endpoint>
+            <name>REJECT_REQUEST</name>
+            <path>/api/actions/reject</path>
+            <method>POST</method>
+            <category>Actions</category>
+            <description>Reject a request</description>
+            <blockType>INDIRECT</blockType>
+        </endpoint>
+
+        <!-- Complex - Key-next calculations -->
+        <endpoint>
+            <name>CALCULATE_NEXT_SEQ</name>
+            <path>/api/complex/calc-seq</path>
+            <method>POST</method>
+            <category>Complex (Key-next calculations)</category>
+            <description>Calculate next sequence number</description>
+            <blockType>DIRECT</blockType>
+            <businessLogic>SELECT MAX(id) + 1 FROM sequence_table</businessLogic>
+        </endpoint>
+
+        <!-- Complex - Commit logic -->
+        <endpoint>
+            <name>COMMIT_TRANSACTION</name>
+            <path>/api/complex/commit</path>
+            <method>POST</method>
+            <category>Complex (Commit logic)</category>
+            <description>Commit transaction with validation</description>
+            <blockType>DIRECT</blockType>
+            <commitLogic>BEGIN TRANSACTION; UPDATE status = 'COMMITTED'; COMMIT;</commitLogic>
+        </endpoint>
+
+        <!-- Complex - History -->
+        <endpoint>
+            <name>GET_HISTORY</name>
+            <path>/api/complex/history/{id}</path>
+            <method>GET</method>
+            <category>Complex (History)</category>
+            <description>Retrieve audit history</description>
+            <blockType>DIRECT</blockType>
+            <historyTracking>SELECT * FROM audit_log WHERE entity_id = ?</historyTracking>
+        </endpoint>
+    </endpoints>
+</fmb>
